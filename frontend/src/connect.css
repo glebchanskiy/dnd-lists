@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+ .header-button {
+  @apply px-2 cursor-pointer hover:bg-gray-300 transition-all ease-in-out rounded-lg border border-[1.8px] border-black;
+ }
+ .header-button-active {
+  @apply bg-gray-300 font-semibold border border-[1.8px] border-black;
+ }
+
+ .card-shadow {
+  box-shadow: 0px 5px 5px -50px rgba(0, 0, 0, 0.75);
+ }
+
+ .center-custom {
+  left: 50%;
+  transform: translateX(-50%);
+ }
+}
+
