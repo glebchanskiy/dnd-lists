@@ -38,7 +38,7 @@ const initialState: UserState = {
 }
 
 export const auth = createAsyncThunk('user/auth', async (userData: UserAuthData, { rejectWithValue }) => {
-  return fetch('http://192.168.185.121:8080/api/v1/dnd/auth', {
+  return fetch('http://localhost:8080/api/v1/dnd/auth', {
     method: 'POST',
     body: JSON.stringify(userData),
     headers: {
@@ -55,7 +55,7 @@ export const auth = createAsyncThunk('user/auth', async (userData: UserAuthData,
 });
 
 export const signUp = createAsyncThunk('user/signup', async (userData: UserSignUpData, { rejectWithValue }) => {
-  return fetch('http://192.168.185.121:8080/api/v1/dnd/signup', {
+  return fetch('http://localhost:8080/api/v1/dnd/signup', {
     method: 'POST',
     body: JSON.stringify(userData),
     headers: {

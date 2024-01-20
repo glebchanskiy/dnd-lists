@@ -6,7 +6,7 @@ import path from 'path';
 // https://vitejs.dev/config/
 export default defineConfig({
 	server: {
-		host: '192.168.185.48'
+		host: '0.0.0.0'
 	},
 	resolve: {
 		alias: {

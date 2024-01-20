@@ -104,7 +104,7 @@ export const loadAllCharacters = createAsyncThunk("slicer/loadAllCharacters", as
   console.log("token: ", token);
   return axios
     .get(
-      `http://192.168.185.121:8080/api/v1/characters`,
+      `http://localhost:8080/api/v1/characters`,
       { headers }
     )
     .then((data) => data.data.map((d) => dtoToObject(d)))
@@ -188,7 +188,7 @@ export const postCharacter = createAsyncThunk("slicer/postCharacter", async (arg
 
     return axios
       .post(
-        `http://192.168.185.121:8080/api/v1/characters`,
+        `http://localhost:8080/api/v1/characters`,
         body,
         { headers }
       )
@@ -214,7 +214,7 @@ export const updateCharacterThunk = createAsyncThunk("slicer/postCharacter", asy
   
     return axios
       .post(
-        `http://192.168.185.121:8080/api/v1/characters/` + body.id,
+        `http://localhost:8080/api/v1/characters/` + body.id,
         body,
         { headers }
       )
