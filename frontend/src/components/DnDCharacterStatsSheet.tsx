@@ -13,6 +13,7 @@ import "./dndstyles.css"
 import { Component } from "preact"
 import { useAppSelector } from "@/redux/hooks"
 import { DnDAligments } from "@/models/DnDAligments"
+import { beautifyNumber, calcModifier, calculateSkill } from "./utils"
 
 interface IDnDCharacterStatsSheetProps {
   character?: DnDCharacter
@@ -337,7 +338,7 @@ class DnDCharacterStatsSheet extends Component<
                       <Skill
                         label="Strength"
                         name="strSave"
-                        value={character.strSave}
+                        value={calculateSkill(character.strSaveChecked, character.proficiencyBonus, character.str)}
                         checked={character.strSaveChecked}
                         onChange={(name: string, value: any) => {
                           this.updateCharacter(name, value)
@@ -346,7 +347,7 @@ class DnDCharacterStatsSheet extends Component<
                       <Skill
                         label="Dexterity"
                         name="dexSave"
-                        value={character.dexSave}
+                        value={calculateSkill(character.dexSaveChecked, character.proficiencyBonus, character.dex)}
                         checked={character.dexSaveChecked}
                         onChange={(name: string, value: any) => {
                           this.updateCharacter(name, value)
@@ -355,7 +356,7 @@ class DnDCharacterStatsSheet extends Component<
                       <Skill
                         label="Constitution"
                         name="conSave"
-                        value={character.conSave}
+                        value={calculateSkill(character.conSaveChecked, character.proficiencyBonus, character.con)}
                         checked={character.conSaveChecked}
                         onChange={(name: string, value: any) => {
                           this.updateCharacter(name, value)
@@ -364,7 +365,7 @@ class DnDCharacterStatsSheet extends Component<
                       <Skill
                         label="Intelligence"
                         name="intSave"
-                        value={character.intSave}
+                        value={calculateSkill(character.intSaveChecked, character.proficiencyBonus, character.ind)}
                         checked={character.intSaveChecked}
                         onChange={(name: string, value: any) => {
                           this.updateCharacter(name, value)
@@ -373,7 +374,7 @@ class DnDCharacterStatsSheet extends Component<
                       <Skill
                         label="Wisdom"
                         name="wisSave"
-                        value={character.wisSave}
+                        value={calculateSkill(character.wisSaveChecked, character.proficiencyBonus, character.wis)}
                         checked={character.wisSaveChecked}
                         onChange={(name: string, value: any) => {
                           this.updateCharacter(name, value)
@@ -382,7 +383,7 @@ class DnDCharacterStatsSheet extends Component<
                       <Skill
                         label="Charisma"
                         name="chaSave"
-                        value={character.chaSave}
+                        value={calculateSkill(character.chaSaveChecked, character.proficiencyBonus, character.cha)}
                         checked={character.chaSaveChecked}
                         onChange={(name: string, value: any) => {
                           this.updateCharacter(name, value)
@@ -402,7 +403,7 @@ class DnDCharacterStatsSheet extends Component<
                         label="Acrobatics"
                         hint="(Dex)"
                         name="skillAcrobatics"
-                        value={character.skillAcrobatics}
+                        value={calculateSkill(character.skillAcrobaticsChecked, character.proficiencyBonus, character.dex)}
                         checked={character.skillAcrobaticsChecked}
                         onChange={(name: string, value: any) => {
                           this.updateCharacter(name, value)
@@ -412,7 +413,7 @@ class DnDCharacterStatsSheet extends Component<
                         label="Animal Handling"
                         hint="(Wis)"
                         name="skillAnimalHandling"
-                        value={character.skillAnimalHandling}
+                        value={calculateSkill(character.skillAnimalHandlingChecked, character.proficiencyBonus, character.wis)}
                         checked={character.skillAnimalHandlingChecked}
                         onChange={(name: string, value: any) => {
                           this.updateCharacter(name, value)
@@ -422,7 +423,7 @@ class DnDCharacterStatsSheet extends Component<
                         label="Arcana"
                         hint="(Int)"
                         name="skillArcana"
-                        value={character.skillArcana}
+                        value={calculateSkill(character.skillArcanaChecked, character.proficiencyBonus, character.ind)}
                         checked={character.skillArcanaChecked}
                         onChange={(name: string, value: any) => {
                           this.updateCharacter(name, value)
@@ -432,7 +433,7 @@ class DnDCharacterStatsSheet extends Component<
                         label="Athletics"
                         hint="(Str)"
                         name="skillAthletics"
-                        value={character.skillAthletics}
+                        value={calculateSkill(character.skillAthleticsChecked, character.proficiencyBonus, character.str)}
                         checked={character.skillAthleticsChecked}
                         onChange={(name: string, value: any) => {
                           this.updateCharacter(name, value)
@@ -442,7 +443,7 @@ class DnDCharacterStatsSheet extends Component<
                         label="Deception"
                         hint="(Cha)"
                         name="skillDeception"
-                        value={character.skillDeception}
+                        value={calculateSkill(character.skillDeceptionChecked, character.proficiencyBonus, character.cha)}
                         checked={character.skillDeceptionChecked}
                         onChange={(name: string, value: any) => {
                           this.updateCharacter(name, value)
@@ -452,7 +453,7 @@ class DnDCharacterStatsSheet extends Component<
                         label="History"
                         hint="(Int)"
                         name="skillHistory"
-                        value={character.skillHistory}
+                        value={calculateSkill(character.skillHistoryChecked, character.proficiencyBonus, character.ind)}
                         checked={character.skillHistoryChecked}
                         onChange={(name: string, value: any) => {
                           this.updateCharacter(name, value)
@@ -462,7 +463,7 @@ class DnDCharacterStatsSheet extends Component<
                         label="Insight"
                         hint="(Wis)"
                         name="skillInsight"
-                        value={character.skillInsight}
+                        value={calculateSkill(character.skillInsightChecked, character.proficiencyBonus, character.wis)}
                         checked={character.skillInsightChecked}
                         onChange={(name: string, value: any) => {
                           this.updateCharacter(name, value)
@@ -472,7 +473,7 @@ class DnDCharacterStatsSheet extends Component<
                         label="Intimidation"
                         hint="(Cha)"
                         name="skillIntimidation"
-                        value={character.skillIntimidation}
+                        value={calculateSkill(character.skillIntimidationChecked, character.proficiencyBonus, character.cha)}
                         checked={character.skillIntimidationChecked}
                         onChange={(name: string, value: any) => {
                           this.updateCharacter(name, value)
@@ -482,7 +483,7 @@ class DnDCharacterStatsSheet extends Component<
                         label="Investigation"
                         hint="(Int)"
                         name="skillInvestigation"
-                        value={character.skillInvestigation}
+                        value={calculateSkill(character.skillInvestigationChecked, character.proficiencyBonus, character.ind)}
                         checked={character.skillInvestigationChecked}
                         onChange={(name: string, value: any) => {
                           this.updateCharacter(name, value)
@@ -492,7 +493,7 @@ class DnDCharacterStatsSheet extends Component<
                         label="Medicine"
                         hint="(Wis)"
                         name="skillMedicine"
-                        value={character.skillMedicine}
+                        value={calculateSkill(character.skillMedicineChecked, character.proficiencyBonus, character.wis)}
                         checked={character.skillMedicineChecked}
                         onChange={(name: string, value: any) => {
                           this.updateCharacter(name, value)
@@ -502,7 +503,7 @@ class DnDCharacterStatsSheet extends Component<
                         label="Nature"
                         hint="(Int)"
                         name="skillNature"
-                        value={character.skillNature}
+                        value={calculateSkill(character.skillNatureChecked, character.proficiencyBonus, character.ind)}
                         checked={character.skillNatureChecked}
                         onChange={(name: string, value: any) => {
                           this.updateCharacter(name, value)
@@ -512,7 +513,7 @@ class DnDCharacterStatsSheet extends Component<
                         label="Perception"
                         hint="(Wis)"
                         name="skillPerception"
-                        value={character.skillPerception}
+                        value={calculateSkill(character.skillPerceptionChecked, character.proficiencyBonus, character.wis)}
                         checked={character.skillPerceptionChecked}
                         onChange={(name: string, value: any) => {
                           this.updateCharacter(name, value)
@@ -522,7 +523,7 @@ class DnDCharacterStatsSheet extends Component<
                         label="Performance"
                         hint="(Cha)"
                         name="skillPerformance"
-                        value={character.skillPerformance}
+                        value={calculateSkill(character.skillPerformanceChecked, character.proficiencyBonus, character.cha)}
                         checked={character.skillPerformanceChecked}
                         onChange={(name: string, value: any) => {
                           this.updateCharacter(name, value)
@@ -532,7 +533,7 @@ class DnDCharacterStatsSheet extends Component<
                         label="Persuasion"
                         hint="(Cha)"
                         name="skillPersuasion"
-                        value={character.skillPersuasion}
+                        value={calculateSkill(character.skillPersuasionChecked, character.proficiencyBonus, character.cha)}
                         checked={character.skillPersuasionChecked}
                         onChange={(name: string, value: any) => {
                           this.updateCharacter(name, value)
@@ -542,7 +543,7 @@ class DnDCharacterStatsSheet extends Component<
                         label="Religion"
                         hint="(Int)"
                         name="skillReligion"
-                        value={character.skillReligion}
+                        value={calculateSkill(character.skillReligionChecked, character.proficiencyBonus, character.ind)}
                         checked={character.skillReligionChecked}
                         onChange={(name: string, value: any) => {
                           this.updateCharacter(name, value)
@@ -552,7 +553,7 @@ class DnDCharacterStatsSheet extends Component<
                         label="Sleight of Hand"
                         hint="(Dex)"
                         name="skillSlightOfHand"
-                        value={character.skillSlightOfHand}
+                        value={calculateSkill(character.skillSlightOfHandChecked, character.proficiencyBonus, character.dex)}
                         checked={character.skillSlightOfHandChecked}
                         onChange={(name: string, value: any) => {
                           this.updateCharacter(name, value)
@@ -562,7 +563,7 @@ class DnDCharacterStatsSheet extends Component<
                         label="Stealth"
                         hint="(Dex)"
                         name="skillStealth"
-                        value={character.skillStealth}
+                        value={calculateSkill(character.skillStealthChecked, character.proficiencyBonus, character.dex)}
                         checked={character.skillStealthChecked}
                         onChange={(name: string, value: any) => {
                           this.updateCharacter(name, value)
@@ -572,7 +573,7 @@ class DnDCharacterStatsSheet extends Component<
                         label="Survival"
                         hint="(Wis)"
                         name="skillSurvival"
-                        value={character.skillSurvival}
+                        value={calculateSkill(character.skillSurvivalChecked, character.proficiencyBonus, character.wis)}
                         checked={character.skillSurvivalChecked}
                         onChange={(name: string, value: any) => {
                           this.updateCharacter(name, value)
