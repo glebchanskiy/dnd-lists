@@ -9,19 +9,29 @@ type DnDCharacterListProps = {}
 export const DnDCharacterList = (props: DnDCharacterListProps) => {
   const location = useLocation()
   const characters = useAppSelector((state) => state.charactersSlice.characters)
-  const currentChar = useAppSelector((state) => state.charactersSlice.currentCharacter)
+  const currentChar = useAppSelector(
+    (state) => state.charactersSlice.currentCharacter
+  )
   const dispatch = useAppDispatch()
-
+  
+  console.log(characters)
   return (
     <div class="flex flex-col py-10 gap-8">
-      {characters.map((c) => (
+      {characters.map((c, i) => (
         <DnDCharacterCard
+          key={i}
           character={c}
-          onClick={() => {dispatch(changeSelectedCharacter(c)), location.route('/stats')}}
-          class={currentChar && currentChar.id === c.id ? 'bg-gray-100' : ''}
+          onClick={() => {
+            dispatch(changeSelectedCharacter(c)), location.route("/stats")
+          }}
+          class={currentChar && currentChar.id === c.id ? "bg-gray-100" : ""}
         />
       ))}
-      {(!characters || characters.length === 0) && <div class='text-center'><span>Пусто (</span></div>}
+      {(!characters || characters.length === 0) && (
+        <div class="text-center">
+          <span>Пусто (</span>
+        </div>
+      )}
     </div>
   )
 }
@@ -49,7 +59,7 @@ const findArt = (characterClass: string) => {
   // else if (["изобретатель", "artificer"].includes(c)) return "/assets/artificer.jpg"
   // else if (["bard", "бард"].includes(c)) return "/assets/bard.jpeg"
   if (["warrior", "воин"].includes(c)) return "/src/assets/war1.png"
-    else if (["barbarian", "варвар"].includes(c))
+  else if (["barbarian", "варвар"].includes(c))
     return "/src/assets/barbarian.jpeg"
   else if (["cleric", "жрец"].includes(c)) return "/src/assets/cleric.jpeg"
   else if (["druid", "друид"].includes(c)) return "/src/assets/druid.jpeg"
@@ -57,7 +67,8 @@ const findArt = (characterClass: string) => {
   else if (["warlock", "чародей"].includes(c)) return "/src/assets/warlock.jpeg"
   else if (["wizard", "волшебник"].includes(c)) return "/src/assets/wizard.jpeg"
   else if (["bard", "бард"].includes(c)) return "/src/assets/bard.jpeg"
-  else if (["изобретатель", "artificer"].includes(c)) return "/src/assets/artificer.jpg"
+  else if (["изобретатель", "artificer"].includes(c))
+    return "/src/assets/artificer.jpg"
 }
 
 type DnDCharacterCardProps = {
@@ -68,7 +79,7 @@ const DnDCharacterCard = (props: DnDCharacterCardProps) => {
   const info =
     props.character.backstory ?? props.character.ideals ?? "Без описания"
   const infoMaxLength = 222
-  console.log('character: ', props.character)
+  console.log("character: ", props.character)
   return (
     <div
       onClick={props.onClick}

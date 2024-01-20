@@ -20,7 +20,7 @@ export type DnDCharacterDTO = {
   str?: string
   dex?: string
   con?: string
-  int?: string
+  ind?: string
   wis?: string
   cha?: string
 

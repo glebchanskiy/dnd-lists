@@ -290,8 +290,8 @@ class DnDCharacterStatsSheet extends Component<
                     />
                     <Statbox
                       label="Intelligence"
-                      name="int"
-                      value={character.int}
+                      name="ind"
+                      value={character.ind}
                       onChange={(name: string, value: any) => {
                         this.updateCharacter(name, value)
                       }}
