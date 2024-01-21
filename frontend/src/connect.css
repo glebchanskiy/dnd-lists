@@ -1,13 +1,15 @@
+@config "../tailwind.config.ts";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer components {
  .header-button {
-  @apply px-2 cursor-pointer hover:bg-gray-300 transition-all ease-in-out rounded-lg border border-[1.8px] border-black;
+  @apply px-2 hover:bg-dark-gray-hover text-light-text hover:text-white transition-all ease-in-out rounded-md border-[1px] border-gray-border cursor-pointer;
  }
  .header-button-active {
-  @apply bg-gray-300 font-semibold border border-[1.8px] border-black;
+  @apply  border-[1px] border-gray-border bg-dark-gray-hover text-white;
  }
 
  .card-shadow {
@@ -19,4 +21,3 @@
   transform: translateX(-50%);
  }
 }
-

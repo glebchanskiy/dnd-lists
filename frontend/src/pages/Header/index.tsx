@@ -13,7 +13,7 @@ import { auth, logout, signUp, tryAuth } from "@/redux/userSlice"
 import UserAuth from "./auth"
 
 const buttons: { route: string; label: string }[] = [
-  { label: "Home", route: "/" },
+  // { label: "Home", route: "/" },
   { label: "Stats", route: "/stats" },
   { label: "Profile", route: "/profile" },
   { label: "Spell", route: "/spell" },
@@ -32,18 +32,10 @@ export function Header() {
   }, [dispatch])
 
   return (
-    <div class=" sticky top-0 z-50 backdrop-blur-md ">
-      <div class="bg-gray-200 max-w-[1100px] mx-auto flex px-2 py-2 gap-6  justify-between text-center text-[18px] rounded-xl">
+    <div class="sticky top-0 z-50 mt-2">
+      <div class="bg-dark-gray max-w-[1100px] mx-auto flex px-3 py-2 gap-6  justify-between text-center text-light-text text-[18px] rounded-md">
         <div class="flex gap-3">
-          {buttons.map((b) => (
-            <Button
-              class={`w-20 header-button ${
-                b.route === location.url ? " header-button-active" : ""
-              }`}
-              onClick={() => location.route(b.route)}
-              label={b.label}
-            />
-          ))}
+          <button class="font-bold outline-none focus:outline-none" onClick={() => location.route('/')}>D&D Lists</button>
         </div>
         <div class="flex justify-end">
           <UserAuth />
@@ -69,49 +61,83 @@ type SelectedCharacterProps = {
 const SelectedCharacter = (props: SelectedCharacterProps) => {
   const dispatch = useAppDispatch()
   const auth = useAppSelector((state) => state.userSlice.auth)
+  const location = useLocation()
   return (
-    <div class="max-w-[1100px]  mx-auto flex justify-between p-2 text-center">
-      <Button
-        class="w-20 header-button "
-        onClick={() => dispatch(unselectCharacter())}
-        label={"Cancel"}
-      />
-      <span>
-        Выбран:{" "}
-        <span class="font-semibold">
-          {props.character.name && props.character.name.length > 0
-            ? props.character.name
-            : "Nameless"}
+    <div class="bg-dark-gray text-light-text max-w-[1100px] mt-2 gap-2 mx-auto flex flex-col p-2 text-center rounded-md">
+      <div class="flex justify-between">
+        <span>
+          Выбран:{" "}
+          <span class="font-semibold">
+            {props.character.name && props.character.name.length > 0
+              ? props.character.name
+              : "Nameless"}
+          </span>
+          {", "}
+          <span class="font-semibold">
+            {props.character.class
+              ? props.character.class
+              : "Class - not selected"}
+          </span>
+          <span class="font-semibold">
+            {props.character.classLevel &&
+            Number(props.character.classLevel) > 0
+              ? " " + props.character.classLevel
+              : ""}
+          </span>
         </span>
-        {", "}
-        <span class="font-semibold">
-          {props.character.class
-            ? props.character.class
-            : "Class - not selected"}
-        </span>
-        <span class="font-semibold">
-          {props.character.classLevel && Number(props.character.classLevel) > 0
-            ? " " + props.character.classLevel
-            : ""}
-        </span>
-      </span>
 
-      {auth.authenticated && (
-        <Button
-          class="w-20 header-button"
-          onClick={() => {
-            dispatch(saveSelectedCharacter())
-            if (!props.character.id || props.character.id.length === 0) {
-              dispatch(postCharacter())
-              console.log("create")
-            } else {
-              dispatch(updateCharacterThunk())
-              console.log("update")
-            }
-          }}
-          label={"Save"}
-        />
-      )}
+        <div class="flex gap-1.5">
+          <Button
+            class="w-20 header-button "
+            onClick={() => {
+              dispatch(unselectCharacter()), location.route("/")
+            }}
+            label={"Cancel"}
+          />
+
+          {auth.authenticated ? (
+            <Button
+              class="w-20 header-button"
+              onClick={() => {
+                dispatch(saveSelectedCharacter())
+                if (!props.character.id || props.character.id.length === 0) {
+                  dispatch(postCharacter())
+                  console.log("create")
+                } else {
+                  dispatch(updateCharacterThunk())
+                  console.log("update")
+                }
+              }}
+              label={"Save"}
+            />
+          ) : (
+            <>
+              <Button
+                class="w-30 header-button"
+                label={"Save"}
+                onClick={() => alert("Login to Save")}
+              />
+            </>
+          )}
+        </div>
+      </div>
+
+      <div class="flex justify-start gap-2">
+        {props.character && (
+          <>
+            {buttons.map((b, i) => (
+              <Button
+                key={i}
+                class={`w-20 header-button ${
+                  b.route === location.url ? " header-button-active" : ""
+                }`}
+                onClick={() => location.route(b.route)}
+                label={b.label}
+              />
+            ))}
+          </>
+        )}
+      </div>
     </div>
   )
 }
