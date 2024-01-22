@@ -10,6 +10,7 @@ import axios from 'axios';
 import { RootState } from './store';
 import { logout } from './userSlice';
 import { createAxiosHeadersWithToken, dtoToObject, mapToDTO, tokenExist } from './utils';
+import { DnDCharacterDTO } from '@/models/DnDCharacterDTO';
 
 interface User {
   username: string
@@ -51,8 +52,8 @@ export const loadAllCharacters = createAsyncThunk("slicer/loadAllCharacters", as
       `http://localhost:8080/api/v1/characters`,
       { headers: createAxiosHeadersWithToken() }
     )
-    .then(response => response.data)
-    .then(data => data.map(dto => dtoToObject(dto)))
+    .then(response => response.data as DnDCharacterDTO[])
+    .then(data => data.map(dtoToObject))
 })
 
 export const postCharacter = createAsyncThunk("slicer/postCharacter", async (arg, { getState }) => {
@@ -125,7 +126,9 @@ export const charactersSlice = createSlice({
         console.log('chars: ', actione.payload)
         state.characters = [...actione.payload]
       })
-
+      .addCase(loadAllCharacters.rejected, (state, actione) => {
+        console.log('rejected to load characters')
+      })
       .addCase(saveSelectedCharacter, (state, actione) => {
       })
       .addCase(logout, (state, action) => {
