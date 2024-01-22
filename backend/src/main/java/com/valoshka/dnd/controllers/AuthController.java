@@ -10,7 +10,7 @@ import com.valoshka.dnd.services.AuthService;
 
 @RestController
 @Slf4j
-@RequestMapping(path = "/api/v1/dnd")
+@RequestMapping(path = "/api/v1")
 @AllArgsConstructor
 @CrossOrigin(origins = "*", allowedHeaders = "*", methods = RequestMethod.POST)
 public class AuthController {
